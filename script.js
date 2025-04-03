@@ -1,6 +1,15 @@
 document.addEventListener("DOMContentLoaded", function () {
     const cityInput = document.getElementById("city");
     const suggestionsBox = document.getElementById("suggestions");
+    let userCountry = null; // Будем хранить страну пользователя
+
+    // Определяем страну пользователя
+    fetch("https://ipapi.co/json/")
+        .then(response => response.json())
+        .then(data => {
+            userCountry = data.country_code;
+        })
+        .catch(error => console.error("Не удалось определить страну:", error));
 
     cityInput.addEventListener("input", function () {
         const query = cityInput.value.trim();
@@ -9,7 +18,13 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}`)
+        // Делаем запрос к OpenStreetMap с приоритетом страны пользователя
+        let url = `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=10&q=${query}`;
+        if (userCountry) {
+            url += `&countrycodes=${userCountry}`;
+        }
+
+        fetch(url)
             .then(response => response.json())
             .then(data => {
                 suggestionsBox.innerHTML = "";

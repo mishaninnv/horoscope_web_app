@@ -8,21 +8,29 @@
     <script defer src="script.js"></script>
 </head>
 <body>
-    <div id="form-container">
-        <h2>Введите данные</h2>
+    <div id="app">
+        <h2>Заполните данные</h2>
 
-        <label for="birthDate">Дата рождения:</label>
-        <input type="date" id="birthDate">
+        <div class="input-group">
+            <label for="birthDate">Дата рождения:</label>
+            <input type="date" id="birthDate">
+        </div>
 
-        <label for="birthTime">Время рождения:</label>
-        <input type="time" id="birthTime">
+        <div class="input-group">
+            <label for="birthTime">Время рождения:</label>
+            <input type="time" id="birthTime">
+        </div>
 
-        <label for="city">Город рождения:</label>
-        <input type="text" id="city" placeholder="Начните вводить..." autocomplete="off">
-        <ul id="suggestions" class="hidden"></ul>
+        <div class="input-group">
+            <label for="city">Город рождения:</label>
+            <input type="text" id="city" placeholder="Начните вводить..." autocomplete="off">
+            <ul id="suggestions" class="hidden"></ul>
+        </div>
 
-        <label for="notifyTime">Удобное время уведомлений:</label>
-        <input type="time" id="notifyTime">
+        <div class="input-group">
+            <label for="notifyTime">Удобное время уведомлений:</label>
+            <input type="time" id="notifyTime">
+        </div>
 
         <button id="submitButton">Отправить</button>
     </div>
