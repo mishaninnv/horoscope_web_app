@@ -3,11 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ввод данных</title>
-    <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
-    <link rel="stylesheet" href="styles.css">
+    <title>Заполните данные</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="script.js"></script>
 </head>
 <body>
-    <script src="game.js"></script>
+    <div id="form-container">
+        <h2>Введите данные</h2>
+
+        <label for="birthDate">Дата рождения:</label>
+        <input type="date" id="birthDate">
+
+        <label for="birthTime">Время рождения:</label>
+        <input type="time" id="birthTime">
+
+        <label for="city">Город рождения:</label>
+        <input type="text" id="city" placeholder="Начните вводить..." autocomplete="off">
+        <ul id="suggestions" class="hidden"></ul>
+
+        <label for="notifyTime">Удобное время уведомлений:</label>
+        <input type="time" id="notifyTime">
+
+        <button id="submitButton">Отправить</button>
+    </div>
 </body>
 </html>
