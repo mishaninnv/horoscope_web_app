@@ -11,7 +11,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let birthDate = "";
     let birthTime = "";
-    let birthPlace = "";
+    let country = "";
+    let region = "";
+    let city = "";
     let currentLocation = "";
     let notifyTime = "";
 
@@ -32,11 +34,23 @@ document.addEventListener("DOMContentLoaded", function () {
             
             <label>Время рождения:</label>
             <input type="time" id="birthTime">
-            
-            <label>Место рождения:</label>
-            <input type="text" id="birthPlace" placeholder="Город, страна" oninput="searchLocation(this.value)">
-            <ul id="autocomplete-results"></ul>
-            
+
+            <label>Страна рождения:</label>
+            <input type="text" id="country" placeholder="Начните вводить страну..." oninput="searchLocation(this.value, 'country')">
+            <ul id="country-results"></ul>
+
+            <div id="region-container" style="display: none;">
+                <label>Регион:</label>
+                <input type="text" id="region" placeholder="Выберите регион" oninput="searchLocation(this.value, 'region')">
+                <ul id="region-results"></ul>
+            </div>
+
+            <div id="city-container" style="display: none;">
+                <label>Город:</label>
+                <input type="text" id="city" placeholder="Выберите город" oninput="searchLocation(this.value, 'city')">
+                <ul id="city-results"></ul>
+            </div>
+
             <label>Ваше текущее местоположение:</label>
             <input type="text" id="currentLocation" placeholder="Определяется автоматически" disabled>
             
@@ -51,7 +65,9 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("submitButton").addEventListener("click", function () {
             birthDate = document.getElementById("birthDate").value;
             birthTime = document.getElementById("birthTime").value;
-            birthPlace = document.getElementById("birthPlace").value;
+            country = document.getElementById("country").value;
+            region = document.getElementById("region").value;
+            city = document.getElementById("city").value;
             notifyTime = document.getElementById("notifyTime").value;
 
             if (navigator.geolocation) {
@@ -70,28 +86,39 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function sendToTelegram() {
-        const data = { birthDate, birthTime, birthPlace, currentLocation, notifyTime };
+        const data = { birthDate, birthTime, country, region, city, currentLocation, notifyTime };
         window.Telegram.WebApp.sendData(JSON.stringify(data));
         window.Telegram.WebApp.close();
     }
 });
 
-// Функция поиска мест через OpenStreetMap API
-function searchLocation(query) {
+// Универсальный поиск для стран, регионов и городов
+function searchLocation(query, type) {
     if (query.length < 3) return;
 
     fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}`)
         .then(response => response.json())
         .then(data => {
-            const resultsContainer = document.getElementById("autocomplete-results");
+            const resultsContainer = document.getElementById(`${type}-results`);
             resultsContainer.innerHTML = "";
 
             data.forEach(location => {
                 const li = document.createElement("li");
                 li.textContent = location.display_name;
                 li.addEventListener("click", () => {
-                    document.getElementById("birthPlace").value = location.display_name;
-                    resultsContainer.innerHTML = ""; // Скрываем список
+                    document.getElementById(type).value = location.display_name;
+                    resultsContainer.innerHTML = ""; // Закрываем выпадающий список
+
+                    // Показываем следующие поля
+                    if (type === "country") {
+                        document.getElementById("region-container").style.display = "block";
+                        document.getElementById("region").value = "";
+                        document.getElementById("city-container").style.display = "none";
+                    }
+                    if (type === "region") {
+                        document.getElementById("city-container").style.display = "block";
+                        document.getElementById("city").value = "";
+                    }
                 });
                 resultsContainer.appendChild(li);
             });
