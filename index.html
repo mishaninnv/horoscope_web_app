@@ -3,36 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Заполните данные</title>
-    <link rel="stylesheet" href="style.css">
-    <script defer src="script.js"></script>
+    <title>Игра для Telegram Mini App</title>
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="app">
-        <h2>Заполните данные</h2>
-
-        <div class="input-group">
-            <label for="birthDate">Дата рождения:</label>
-            <input type="date" id="birthDate">
-        </div>
-
-        <div class="input-group">
-            <label for="birthTime">Время рождения:</label>
-            <input type="time" id="birthTime">
-        </div>
-
-        <div class="input-group">
-            <label for="city">Город рождения:</label>
-            <input type="text" id="city" placeholder="Начните вводить..." autocomplete="off">
-            <ul id="suggestions" class="hidden"></ul>
-        </div>
-
-        <div class="input-group">
-            <label for="notifyTime">Удобное время уведомлений:</label>
-            <input type="time" id="notifyTime">
-        </div>
-
-        <button id="submitButton">Отправить</button>
-    </div>
+    <script src="game.js"></script>
 </body>
 </html>
