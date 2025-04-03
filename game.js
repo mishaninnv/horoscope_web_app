@@ -34,7 +34,8 @@ document.addEventListener("DOMContentLoaded", function () {
             <input type="time" id="birthTime">
             
             <label>Место рождения:</label>
-            <input type="text" id="birthPlace" placeholder="Город, страна">
+            <input type="text" id="birthPlace" placeholder="Город, страна" oninput="searchLocation(this.value)">
+            <ul id="autocomplete-results"></ul>
             
             <label>Ваше текущее местоположение:</label>
             <input type="text" id="currentLocation" placeholder="Определяется автоматически" disabled>
@@ -74,3 +75,25 @@ document.addEventListener("DOMContentLoaded", function () {
         window.Telegram.WebApp.close();
     }
 });
+
+// Функция поиска мест через OpenStreetMap API
+function searchLocation(query) {
+    if (query.length < 3) return;
+
+    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}`)
+        .then(response => response.json())
+        .then(data => {
+            const resultsContainer = document.getElementById("autocomplete-results");
+            resultsContainer.innerHTML = "";
+
+            data.forEach(location => {
+                const li = document.createElement("li");
+                li.textContent = location.display_name;
+                li.addEventListener("click", () => {
+                    document.getElementById("birthPlace").value = location.display_name;
+                    resultsContainer.innerHTML = ""; // Скрываем список
+                });
+                resultsContainer.appendChild(li);
+            });
+        });
+}

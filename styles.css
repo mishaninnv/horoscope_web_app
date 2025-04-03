@@ -32,3 +32,26 @@ button {
 button:hover {
     background-color: #45a049;
 }
+
+#autocomplete-results {
+    position: absolute;
+    background: white;
+    list-style: none;
+    padding: 5px;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 5px;
+    overflow: hidden;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+#autocomplete-results li {
+    padding: 8px;
+    cursor: pointer;
+    border-bottom: 1px solid #ddd;
+}
+
+#autocomplete-results li:hover {
+    background: #f0f0f0;
+}
